@@ -35,7 +35,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://staging.realtimerail.nyc",
+  "proxy": "https://transiter.benjaminporter.me",
   "devDependencies": {
     "@types/jest": "^28.1.8",
     "@types/react": "^18.0.10",
