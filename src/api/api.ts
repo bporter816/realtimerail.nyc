@@ -1,6 +1,6 @@
 export {};
 
-const baseURL = "/transiter/v0.6/";
+const baseURL = "https://transiter.benjaminporter.me/";
 const systemID = "us-ny-subway";
 
 export function listRoutesURL(): string {
