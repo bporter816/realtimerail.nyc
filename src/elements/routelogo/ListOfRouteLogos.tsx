@@ -12,7 +12,7 @@ export default function ListOfRouteLogos(props: ListOfRouteLogosProps) {
   let routeIds = sortRouteIds(props.routeIds);
   let routeLogos = [];
   for (const routeId of routeIds) {
-    if (props.skipExpress && routeId.substr(-1, 1) === "X") {
+    if (props.skipExpress && routeId.slice(-1) === "X") {
       continue;
     }
     if (props.addLinks) {
