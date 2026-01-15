@@ -54,6 +54,7 @@ export default function ListOfRouteLogos(props: ListOfRouteLogosProps) {
     } else {
       routeLogos.push(
         <div key={routeId}>
+          <div className={statusClasses} />
           <RouteLogo route={routeId} />
         </div>,
       );

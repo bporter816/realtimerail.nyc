@@ -2,3 +2,14 @@
   display: flex;
   justify-content: center;
 }
+
+.statusCircle {
+  transition: background-color 0.5s;
+  width: 15%;
+  height: 0;
+  padding: 15% 0 0 0;
+  position: absolute;
+  border-radius: 100%;
+  right: 0;
+  top: 0;
+}
