@@ -28,7 +28,7 @@ export function timestampToTime(timestamp: number | null | undefined): string {
   }
   let date = new Date(timestamp * 1000);
   let hours = date.getHours();
-  let minutes = ("0" + date.getMinutes()).substr(-2);
+  let minutes = ("0" + date.getMinutes()).slice(-2);
   return hours + ":" + minutes;
 }
 

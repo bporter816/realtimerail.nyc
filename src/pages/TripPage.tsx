@@ -91,7 +91,7 @@ function Body(trip: Trip) {
       time = tripStopTime.departure?.time;
     }
     let stop = {
-      id: tripStopTime.stop?.id.substr(0, tripStopTime.stop.id.length - 1)!,
+      id: tripStopTime.stop?.id.substring(0, tripStopTime.stop.id.length - 1)!,
       name: tripStopTime.stop?.name!,
       time: timestampToTime(time),
       isActive: tripStopTime.future,
