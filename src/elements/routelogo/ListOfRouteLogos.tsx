@@ -1,6 +1,10 @@
 import "./ListOfRouteLogos.css";
 import RouteLogo from "./RouteLogo";
 import { Link } from "react-router-dom";
+import { listRoutesURL } from "../../api/api";
+import { useHttpData } from "../../hooks/http";
+import { Alert_Reference, ListRoutesReply } from "../../api/types";
+import { buildStatusFromAlerts } from "../../elements/Alert";
 
 export type ListOfRouteLogosProps = {
   routeIds: string[];
@@ -9,9 +13,32 @@ export type ListOfRouteLogosProps = {
 };
 
 export default function ListOfRouteLogos(props: ListOfRouteLogosProps) {
+  const alertsData = useHttpData(
+    listRoutesURL(),
+    null,
+    ListRoutesReply.fromJSON,
+  );
+  let routeIdToAlerts: Map<string, Alert_Reference[]> = new Map();
+  if (alertsData.response != null) {
+    for (const route of alertsData.response.routes) {
+      routeIdToAlerts.set(route.id, route.alerts);
+    }
+  }
+
   let routeIds = sortRouteIds(props.routeIds);
   let routeLogos = [];
   for (const routeId of routeIds) {
+    let alerts: Alert_Reference[] = [];
+	const alertsOr = routeIdToAlerts.get(routeId);
+	if (alertsOr !== undefined) {
+      alerts = alertsOr;
+	}
+    let statusToColorClass = new Map();
+    statusToColorClass.set("SERVICE_CHANGE", "Orange");
+    statusToColorClass.set("DELAYS", "Red");
+    let status = buildStatusFromAlerts(alerts);
+    let statusClasses = "statusCircle " + get(statusToColorClass, status, "");
+
     if (props.skipExpress && routeId.slice(-1) === "X") {
       continue;
     }
@@ -19,6 +46,7 @@ export default function ListOfRouteLogos(props: ListOfRouteLogosProps) {
       routeLogos.push(
         <div key={routeId}>
           <Link to={"/routes/" + routeId}>
+            <div className={statusClasses} />
             <RouteLogo route={routeId} />
           </Link>
         </div>,
@@ -74,4 +102,12 @@ export function sortRouteIds(routeIds: string[]): string[] {
     }
   }
   return result;
+}
+
+function get(m: Map<string, string>, key: string, fallback: string): string {
+  const value = m.get(key);
+  if (value !== undefined) {
+    return value;
+  }
+  return fallback;
 }
